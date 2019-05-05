@@ -1,3 +1,5 @@
+'use strict'
+
 module.exports = (sequealize, Sequealize) => {
     const user = sequealize.define('user', {
         firstName: {
@@ -19,7 +21,8 @@ module.exports = (sequealize, Sequealize) => {
         },
         password: {
             type: Sequealize.STRING(255)
-        }
+        },
+        role: Sequealize.ARRAY(Sequealize.TEXT)
     });
     return user;
 }

@@ -23,6 +23,7 @@ app.use(cors({origin: 'http://localhost:4200'}))
 
 // Routes.
 app.use(require('./routes/user.routes'));
+app.use(require('./routes/article.routes'));
 
 // app.use(require('./routes/auth.routes'));
 // app.use('/api/users', require('./routes/users.routes'));

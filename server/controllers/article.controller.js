@@ -1,10 +1,10 @@
 'use strict'
 
 const db = require('../db');
-const User = db.user;
+const Article = db.article;
 
 exports.findAll = (req, res) => {
-    User.findAll().then(users => {
+    Article.findAll().then(users => {
         res.json(users);
     }).catch(err => {
         console.log(err);
@@ -13,7 +13,7 @@ exports.findAll = (req, res) => {
 };
 
 exports.create = (req, res) => {
-    User.create(req.body).
+    Article.create(req.body).
         then((user) => {
             res.json(user);
         }).catch((err) => {
@@ -24,7 +24,7 @@ exports.create = (req, res) => {
 
 exports.update = (req, res) => {
     const id = res.body.id
-    User.update(req.body, { where: { id: id } }).
+    Article.update(req.body, { where: { id: id } }).
         then(() => {
             res.status(200).json({ msg: 'update successfully -> id = ' + id });
         }).catch((err) => {
@@ -34,7 +34,7 @@ exports.update = (req, res) => {
 
 exports.findById = (req, res) => {
     const id = req.params.id;
-    User.findById(id).
+    Article.findById(id).
         then((user) => {
             res.json(user);
         }).catch((err) => {
@@ -44,7 +44,7 @@ exports.findById = (req, res) => {
 
 exports.delete = (req, res) => {
     const id = req.params.id;
-    User.delete({ where: { id: id } }).
+    Article.delete({ where: { id: id } }).
         then(() => {
             res.status(200).json({ msg: 'deleted successfully -> curstomer id = ', id });
         }).catch((err) => {
