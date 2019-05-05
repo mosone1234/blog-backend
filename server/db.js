@@ -47,8 +47,8 @@ db.sequelize = sequelize;
 // create db
 db.user = require('../server/models/user.model')(sequelize, Sequelize);
 db.article = require('../server/models/article.model')(sequelize, Sequelize);
-// db.authority = require('../server/models/authority.model')(sequelize, Sequelize);
+
 // relationShip between tables
-// db.user.ManyToMany(db.authority, { as: 'authorities', through: {mode: db.}})
+db.user.hasMany(db.article, { as: 'articles' });
 
 module.exports = db;
