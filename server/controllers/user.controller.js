@@ -3,51 +3,57 @@
 const db = require('../db');
 const User = db.user;
 
-exports.findAll = (req, res) => {
-    User.findAll().then(users => {
-        res.json(users);
-    }).catch(err => {
-        console.log(err);
-        res.status(500).json({ msg: "error", details: err });
-    });
+
+const userCtrl = {};
+
+
+userCtrl.findAll = (req, res) => {
+    User.findAll().
+        then(users => {
+            res.status(200).json(users);
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: "error", details: err });
+        });
 };
 
-exports.create = (req, res) => {
+userCtrl.create = (req, res) => {
     User.create(req.body).
         then((user) => {
-            res.json(user);
-        }).catch((err) => {
-            console.log(err);
-            res.status(500).json({ msg: 'error', details: err })
-        });
-}
-
-exports.update = (req, res) => {
-    const id = res.body.id
-    User.update(req.body, { where: { id: id } }).
-        then(() => {
-            res.status(200).json({ msg: 'update successfully -> id = ' + id });
+            res.status(200).json(user);
         }).catch((err) => {
             res.status(500).json({ msg: 'error', details: err });
         });
 }
 
-exports.findById = (req, res) => {
+userCtrl.update = (req, res) => {
+    const id = req.body.id;
+    User.update(req.body, { where: { id: id } }).
+        then(() => {
+            res.status(200).json(req.body);
+        }).catch((err) => {
+            res.status(500).json({ msg: 'error', details: err });
+        });
+}
+
+userCtrl.findById = (req, res) => {
     const id = req.params.id;
-    User.findById(id).
+    User.findOne({ where: { id: id } }).
         then((user) => {
-            res.json(user);
+            res.status(200).json(user);
         }).catch((err) => {
             res.status(300).json({ msg: 'error', details: err });
         });
 }
 
-exports.delete = (req, res) => {
+userCtrl.delete = (req, res) => {
     const id = req.params.id;
-    User.delete({ where: { id: id } }).
+    User.destroy({ where: { id: id } }).
         then(() => {
             res.status(200).json({ msg: 'deleted successfully -> curstomer id = ', id });
         }).catch((err) => {
             res.status(300).json({ msg: 'error', details: err });
         });
 }
+
+module.exports = userCtrl;
