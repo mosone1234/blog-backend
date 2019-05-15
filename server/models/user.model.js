@@ -8,13 +8,13 @@ module.exports = (sequealize, Sequealize) => {
         lastName: {
             type: Sequealize.STRING
         },
-        username: {
+        userName: {
             type: Sequealize.STRING,
             unique: true,
             allowNull: false,
             validate: {
                 len: {
-                    args: [10, 100],
+                    args: [4, 100],
                     msg: 'Please enter a username at least 10 chars but no more than 100'
                 }
             }
@@ -42,7 +42,7 @@ module.exports = (sequealize, Sequealize) => {
             allowNul: false,
             validate: {
                 len: {
-                    args: [4, 40]
+                    args: [4, 200]
                 }
             }
         },
@@ -50,8 +50,10 @@ module.exports = (sequealize, Sequealize) => {
             type: Sequealize.BLOB
         },
         role: {
-            type: Sequealize.ENUM,
-            values: ['USER', 'ADMIN', 'DISABLED']
+            type: Sequealize.ARRAY(Sequealize.STRING)
+        },
+        gender: {
+            type: Sequealize.ENUM('MALE', 'FEMALE')
         },
         status: {
             type: Sequealize.BOOLEAN

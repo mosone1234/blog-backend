@@ -2,8 +2,9 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
-
 const db = require('./db');
+const data = require('./complements/liquidBase/changeLog')
+
 // const swaggerDoc = require('./config/swaggerDocs');
 // const endpoints = require('./config/endpoints');
 
@@ -22,13 +23,9 @@ app.use(express.json());
 app.use(cors({origin: 'http://localhost:4200'}))
 
 // Routes.
+app.use(require('./routes/auth.routes'));
 app.use(require('./routes/user.routes'));
 app.use(require('./routes/article.routes'));
-
-// app.use(require('./routes/auth.routes'));
-// app.use('/api/users', require('./routes/users.routes'));
-// app.use('/api/companies', require('./routes/company.routes'));
-// app.use('/api/authorities', require('./routes/role.routes'));
 
 // starting server
 
