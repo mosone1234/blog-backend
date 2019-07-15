@@ -49,7 +49,7 @@ db.user = require('../server/models/user.model')(sequelize, Sequelize);
 db.article = require('../server/models/article.model')(sequelize, Sequelize);
 
 // relationShip between tables
-db.user.hasMany(db.article);
-db.article.belongsTo(db.user);
+db.user.hasMany(db.article, { constraints: false } );
+db.article.belongsTo(db.user, { constraints: false } );
 
 module.exports = db;

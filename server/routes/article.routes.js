@@ -5,11 +5,11 @@ const router = express.Router();
 
 const articleCtrl = require('../controllers/article.controller');
 
-router.get('/api/users', articleCtrl.findAll);
-router.post('/api/users', articleCtrl.create);
-router.put('/api/users', articleCtrl.update);
-router.get('/api/users/:id', articleCtrl.findById);
-router.delete('/api/users/:id', articleCtrl.delete);
+router.get('/api/articles', articleCtrl.findAll);
+router.post('/api/articles', articleCtrl.create);
+router.put('/api/articles', articleCtrl.update);
+router.get('/api/articles/:id', articleCtrl.findById);
+router.delete('/api/articles/:id', articleCtrl.delete);
 
 module.exports = router;
 

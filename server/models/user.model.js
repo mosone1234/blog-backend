@@ -39,7 +39,7 @@ module.exports = (sequealize, Sequealize) => {
         },
         password: {
             type: Sequealize.STRING,
-            allowNul: false,
+            allowNull: false,
             validate: {
                 len: {
                     args: [4, 200]
