@@ -42,15 +42,13 @@ imageCtrl.uploadImage = (req, res) => {
         type: req.body.type,
         name: req.body.name,
         data: req.file.path
-    }).then(
-        (res) => {
-            res.status(200).json(res);
-        }
-    ).catch(
-        (err) => {
-            res.status(500).json({ msg: 'error', details: err });
-        }
-    )
+    }).
+        then((image) => {
+            res.status(200).json(image);
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).json({ msg: 'error', details: err })
+        });
 };
 
 module.exports = imageCtrl;
