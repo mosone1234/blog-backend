@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING(255)
         },
         data: {
-            type: Sequelize.BLOB('long')
+            type: Sequelize.STRING(255)
         }
     });
     return image;
