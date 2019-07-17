@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = (sequealize, Sequealize) => {
-    const user = sequealize.define('article', {
+    const article = sequealize.define('article', {
         title: {
             type: Sequealize.STRING(255)
         },
@@ -12,5 +12,5 @@ module.exports = (sequealize, Sequealize) => {
             type: Sequealize.STRING(255)
         }
     });
-    return user;
+    return article;
 }

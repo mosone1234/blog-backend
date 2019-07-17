@@ -1,32 +1,28 @@
 'use strict'
 
-const multer = require('multer');
 const db = require('../db');
 const Image = db.image;
-const upload = multer({ dest: 'uploads/' })
 const imageCtrl = {};
 
 imageCtrl.findAll = (req, res) => {
-    const page = req.query.page ? req.query.page : 1;
+    const page = req.query.page ? req.query.page : 0;
     const pageSize = req.query.pageSize ? req.query.pageSize : 10;
     const offset = page * pageSize;
     const limit = offset + pageSize;
-    Image.findAndCountAll({ offset, limit }).then(
-        (images) => {
-            const pages = Math.ceil(images.count / limit);
-            const elements = images.count;
-            res.status(200).json(
-                elements,
-                page,
-                pageSize,
-                pages,
-                images,
-            );
-        }).catch(
-            (err) => {
-                res.status(500).json({ msg: 'error', detail: err });
-            }
-        )
+    Image.findAndCountAll({ offset, limit }).then(images => {
+        const pages = Math.ceil(images.count / limit);
+        const elements = images.count;
+        res.json({
+            elements,
+            page,
+            pageSize,
+            pages,
+            images,
+        });
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({ msg: "error", details: err });
+    });
 }
 
 imageCtrl.delete = (req, res) => {
@@ -56,9 +52,5 @@ imageCtrl.uploadImage = (req, res) => {
         }
     )
 };
-
-// imageCtrl.getIMage = (req, file, res) => {
-
-// }
 
 module.exports = imageCtrl;

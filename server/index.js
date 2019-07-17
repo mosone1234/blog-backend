@@ -8,11 +8,11 @@ const data  = require('./complements/liquidBase/changeLog')
 // const swaggerDoc = require('./config/swaggerDocs');
 // const endpoints = require('./config/endpoints');
 
-db.sequelize.sync({ force: true}).then(() => {
-    console.log('Drop and resync with { force: true }');
-    data.initialDataUser();
-    data.initialDataArticule();
-});
+// db.sequelize.sync({ force: true}).then(() => {
+//     console.log('Drop and resync with { force: true }');
+//     data.initialDataUser();
+//     data.initialDataArticule();
+// });
 
 
 // Settings
