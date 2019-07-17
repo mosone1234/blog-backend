@@ -4,8 +4,20 @@ const db = require('../db');
 const Article = db.article;
 
 exports.findAll = (req, res) => {
-    Article.findAll().then(users => {
-        res.json(users);
+    const page = req.query.page ? req.query.page : 0;
+    const pageSize = req.query.pageSize ? req.query.pageSize : 10;
+    const offset = page * pageSize;
+    const limit = offset + pageSize;
+    Article.findAndCountAll({offset, limit}).then(articles => {
+        const pages = Math.ceil(articles.count / limit);
+        const elements = articles.count;
+        res.json({
+            elements,
+            page,
+            pageSize,
+            pages,
+            articles,
+        });
     }).catch(err => {
         console.log(err);
         res.status(500).json({ msg: "error", details: err });
@@ -14,8 +26,8 @@ exports.findAll = (req, res) => {
 
 exports.create = (req, res) => {
     Article.create(req.body).
-        then((user) => {
-            res.json(user);
+        then((article) => {
+            res.json(article);
         }).catch((err) => {
             console.log(err);
             res.status(500).json({ msg: 'error', details: err })
@@ -35,8 +47,8 @@ exports.update = (req, res) => {
 exports.findById = (req, res) => {
     const id = req.params.id;
     Article.findById(id).
-        then((user) => {
-            res.json(user);
+        then((article) => {
+            res.json(article);
         }).catch((err) => {
             res.status(300).json({ msg: 'error', details: err });
         });

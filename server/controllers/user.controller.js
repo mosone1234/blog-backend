@@ -6,11 +6,25 @@ const User = db.user;
 
 const userCtrl = {};
 
+userCtrl.findAll = async (req, res) => {
+    const page = req.query.page ? req.query.page : 0;
+    const pageSize = req.query.pageSize ? req.query.pageSize : 10;
+    const offset = page * pageSize;
+    const limit = offset + pageSize;
 
-userCtrl.findAll = (req, res) => {
-    User.findAll().
+    User.findAndCountAll({ offset, limit }).
         then(users => {
-            res.status(200).json(users);
+            const pages = Math.ceil(users.count / limit);
+            const elements = users.count;
+            res.status(200).json(
+                {
+                    elements,
+                    page,
+                    pageSize,
+                    pages,
+                    users,
+                }
+            );
         }).catch(err => {
             console.log(err);
             res.status(500).json({ msg: "error", details: err });

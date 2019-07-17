@@ -47,6 +47,7 @@ db.sequelize = sequelize;
 // create db
 db.user = require('../server/models/user.model')(sequelize, Sequelize);
 db.article = require('../server/models/article.model')(sequelize, Sequelize);
+db.image = require('../server/models/image.model')(sequelize, Sequelize);
 
 // relationShip between tables
 db.user.hasMany(db.article, { constraints: false } );
