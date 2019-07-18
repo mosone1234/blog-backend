@@ -8,7 +8,9 @@ exports.findAll = (req, res) => {
     const pageSize = req.query.pageSize ? req.query.pageSize : 10;
     const offset = page * pageSize;
     const limit = offset + pageSize;
-    Article.findAndCountAll({offset, limit}).then(articles => {
+    const value = req.query.sort ? req.query.sort : 'id';
+    const type = req.query.type ? req.query.type.toUpperCase() : 'ASC';
+    Article.findAndCountAll({ offset, limit, order: [[value, type]] }).then(articles => {
         const pages = Math.ceil(articles.count / limit);
         const elements = articles.count;
         res.json({

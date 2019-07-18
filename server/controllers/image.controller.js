@@ -9,7 +9,9 @@ imageCtrl.findAll = (req, res) => {
     const pageSize = req.query.pageSize ? req.query.pageSize : 10;
     const offset = page * pageSize;
     const limit = offset + pageSize;
-    Image.findAndCountAll({ offset, limit }).then(images => {
+    const value = req.query.sort ? req.query.sort : 'id';
+    const type = req.query.type ? req.query.type.toUpperCase() : 'ASC';
+    Image.findAndCountAll({ offset, limit, order: [[value, type]] }).then(images => {
         const pages = Math.ceil(images.count / limit);
         const elements = images.count;
         res.json({

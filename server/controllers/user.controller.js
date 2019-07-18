@@ -11,8 +11,9 @@ userCtrl.findAll = async (req, res) => {
     const pageSize = req.query.pageSize ? req.query.pageSize : 10;
     const offset = page * pageSize;
     const limit = offset + pageSize;
-
-    User.findAndCountAll({ offset, limit }).
+    const value = req.query.sort ? req.query.sort : 'id';
+    const type = req.query.type ? req.query.type.toUpperCase() : 'ASC';
+    User.findAndCountAll({ offset, limit, order: [[value, type]] }).
         then(users => {
             const pages = Math.ceil(users.count / limit);
             const elements = users.count;
