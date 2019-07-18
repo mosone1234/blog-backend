@@ -53,4 +53,7 @@ db.image = require('../server/models/image.model')(sequelize, Sequelize);
 db.user.hasMany(db.article, { constraints: false } );
 db.article.belongsTo(db.user, { constraints: false } );
 
+db.article.hasMany(db.image, { constraints: false} );
+db.image.belongsTo(db.article, { constraints: false})
+
 module.exports = db;
