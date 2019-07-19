@@ -11,5 +11,8 @@ router.put('/api/users', userController.update);
 router.get('/api/users/:id', userController.findById);
 router.delete('/api/users/:id', userController.delete);
 
+router.post('/api/reset-password-init', userController.resetPasswordInit);
+router.post('/api/reset-password-finish', userController.resetPasswordFinish);
+
 module.exports = router;
 

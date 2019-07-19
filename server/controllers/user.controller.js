@@ -2,7 +2,7 @@
 
 const db = require('../db');
 const User = db.user;
-
+const mail = require('../complements/configMail/mail');
 
 const userCtrl = {};
 
@@ -69,6 +69,27 @@ userCtrl.delete = (req, res) => {
         }).catch((err) => {
             res.status(300).json({ msg: 'error', details: err });
         });
+}
+
+userCtrl.resetPasswordInit = (req, res) => {
+    const type = req.body.type;
+    console.log('El tipo es --> ', type);
+    try {
+        mail.sendMail();
+        res.status(200).json({ key: "Esta es la llave que se mandara" });
+    } catch (err) {
+        res.status(500).json({ msg: 'error', details: err });
+    }
+}
+
+userCtrl.resetPasswordFinish = (req, res) => {
+    const key = req.body.key;
+    console.log('El tipo es --> ', key);
+    try {
+        res.status(200).json({ key: "Esta es la llave que se mandara" });
+    } catch (err) {
+        res.status(500).json({ msg: 'error', details: err });
+    }
 }
 
 module.exports = userCtrl;
