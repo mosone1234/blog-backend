@@ -4,6 +4,7 @@ const db = require('../db');
 const User = db.user;
 const mail = require('../complements/configMail/mail');
 const cryptoRandomString = require('crypto-random-string');
+// const fs = require('fs');
 
 const userCtrl = {};
 
@@ -42,6 +43,10 @@ userCtrl.create = (req, res) => {
         });
 }
 
+// userCtrl.createUser = (req, res) => {
+//     User.create(req.body)
+// }
+
 userCtrl.update = (req, res) => {
     const id = req.body.id;
     User.update(req.body, { where: { id: id } }).
@@ -74,6 +79,7 @@ userCtrl.delete = (req, res) => {
 
 userCtrl.resetPasswordInit = (req, res) => {
     const email = req.body.email;
+    // console.log('---------__:???????????????????????>>>>>>>>>>>>>>>> ', __dirname);
     const refreshToken = cryptoRandomString({ length: 50, type: 'base64' });
     User.findOne({ where: { email: email } }).then((user) => {
         mail.sendMail('El token de referencia', refreshToken, user);
