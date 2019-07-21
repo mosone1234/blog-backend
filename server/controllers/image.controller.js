@@ -5,8 +5,8 @@ const Image = db.image;
 const imageCtrl = {};
 
 imageCtrl.findAll = (req, res) => {
-    const page = req.query.page ? req.query.page : 0;
-    const pageSize = req.query.pageSize ? req.query.pageSize : 10;
+    const page = req.query.page ? parseInt(req.query.page) : 0;
+    const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 10;
     const offset = page * pageSize;
     const limit = offset + pageSize;
     const value = req.query.sort ? req.query.sort : 'id';
