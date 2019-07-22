@@ -11,11 +11,11 @@
             background-color: powderblue;
         }
 
-        h5 {
+        .url {
             color: blue;
         }
 
-        p {
+        .email {
             color: red;
         }
     </style>
@@ -23,24 +23,19 @@
 
 <body>
     <div>
-        <h1>
-            Dear
-        </h1>
-        <h5>
+        <h2>
+            Saludos
+        </h2>
+        <h5 class="email">
             {{username}}
         </h5>
-        <h6>
-            <p>
-                Hola este es el mensage que te mandaremos apartir de hoy
-            </p>
-        </h6>
         <h5>
             Su cuenta ha sido creada, haga clic en la URL a continuación para activarla.
         </h5>
-        <a href="">link</a>
-        <h3>
-            Saludos del equipo mos
-        </h3>
+        <h5 class="url">{{url}}</h5>
+        <h5>
+            Saludos del equipo de blog
+        </h5>
     </div>
 </body>
 

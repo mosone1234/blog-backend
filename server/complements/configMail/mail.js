@@ -5,8 +5,8 @@ const handlebars = require('handlebars');
 const fs = require('fs');
 const path = require('path');
 
-const readHTMLFile = function(path, callback) {
-    fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
+const readHTMLFile = function (path, callback) {
+    fs.readFile(path, { encoding: 'utf-8' }, function (err, html) {
         if (err) {
             throw err;
             callback(err);
@@ -17,41 +17,31 @@ const readHTMLFile = function(path, callback) {
     });
 };
 
-async function sendMail(subject, text, user) {
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'xhosone@gmail.com',
+        pass: 'informatica151'
+    }
+});
+
+async function sendMail(pathParam, subject, url, user) {
     console.log('enviar mail');
-
-    const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: {
-            user: 'xhosone@gmail.com',
-            pass: 'informatica151'
-        }
-    });
-
-    // let mailOptions = {
-    //     to: user.email,
-    //     subject: subject, // Subject line
-    //     text: text, // plain text body
-    //     // html: "<b>Hello world?</b>" // html body
-    // };
-
-    console.log('ESTE ES EL PATH', path.join(__dirname, '/html/activateAccount.html'));
-
-    readHTMLFile(__dirname + '/html/activateAccount.html', function(err, html) {
-        var template = handlebars.compile(html);
-        var replacements = {
-             username: "John Doe"
+    readHTMLFile(__dirname + pathParam, function (err, html) {
+        const template = handlebars.compile(html);
+        const replacements = {
+            username: user.email,
+            url: url
         };
-        var htmlToSend = template(replacements);
-        var mailOptions = {
-            // from: 'my@email.com',
-            to : user.email,
-            subject : 'test subject',
-            html : htmlToSend
-         };
-        
+        const htmlToSend = template(replacements);
+        const mailOptions = {
+            to: user.email,
+            subject: subject,
+            html: htmlToSend
+        };
+
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 return console.log(error);
