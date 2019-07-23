@@ -1,5 +1,6 @@
 'user strict'
 
+const bcrypt = require('bcrypt');
 const db = require('../../db');
 const User = db.user;
 const Article = db.article;
@@ -12,6 +13,7 @@ const dataUser = [
         userName: 'user1234',
         email: 'user@localhost.com',
         password: '12345',
+        status: true,
         role: ['USER']
     },
     {
@@ -21,6 +23,7 @@ const dataUser = [
         userName: 'admin1234',
         email: 'admin@localhost.com',
         password: '12345',
+        status: true,
         role: ['ADMIN']
     },
     {
@@ -30,6 +33,7 @@ const dataUser = [
         userName: 'system1234',
         email: 'system@localhost.com',
         password: '12345',
+        status: true,
         role: ['SYSTEM']
     }
 ];
@@ -38,7 +42,10 @@ const dataUser = [
 
 exports.initialDataUser = function () {
     dataUser.forEach(user => {
-        User.create(user);
+        bcrypt.hash(user.password, 10, function (err, hash){
+            user.password = hash;
+            User.create(user);
+        });
     });
 }
 

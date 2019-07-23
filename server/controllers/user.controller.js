@@ -8,7 +8,8 @@ const cryptoRandomString = require('crypto-random-string');
 
 const userCtrl = {};
 
-userCtrl.findAll = async (req, res) => {
+userCtrl.findAll = (req, res) => {
+    console.log('El usuario actual es ---->', req.user);
     const page = req.query.page ? parseInt(req.query.page) : 0;
     const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 10;
     const offset = page * pageSize;

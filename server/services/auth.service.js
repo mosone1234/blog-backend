@@ -1,17 +1,30 @@
-
-const jwt = require('jwt-simple');
 const moment = require('moment');
-const secrect_token = 'validate_token_access_application';
+const jwt = require('jsonwebtoken');
 
-function createToken(user) {
-    const payload = {
-        sub: user._id,
-        iat: moment().unix(),
-        exp: moment().add(14, 'day').unix(),
+createToken = (user) => {
+    return jwt.sign({ user }, 'secretkey', { expiresIn: '3d' });
+}
+
+verifyToken = (req, res, next) => {
+    const bearerHeader = req.headers['authorization'];
+    if (typeof bearerHeader !== 'undefined') {
+        const bearer = bearerHeader.split(' ');
+        const bearerToken = bearer[1];
+        req.token = bearerToken;
+        jwt.verify(req.token, 'secretkey', (err, authData) => {
+            if (err) {
+                res.sendStatus(403);
+            } else {
+                req.authData = authData;
+                next();
+            }
+        });
+    } else {
+        res.sendStatus(403);
     }
-    return jwt.encode(payload, secrect_token);
 }
 
 module.exports = {
     createToken,
+    verifyToken
 };

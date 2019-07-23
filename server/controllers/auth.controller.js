@@ -46,14 +46,17 @@ userCtrl.signin = (req, res) => {
             if (!user.dataValues.status) {
                 res.status(500).send({ msg: 'Account no activate' });
             } else {
-                bcrypt.compare(req.body.password, user.password, async (err, result) => {
+                bcrypt.compare(req.body.password, user.dataValues.password, async (err, result) => {
                     if (await err) {
                         res.status(400).send({ msg: err });
                     }
                     if (await !result) {
                         res.status(400).send({ msg: 'Password incorrect' });
                     } else {
-                        res.status(200).json({ msg: 'Authenticate successfully', token: auth.createToken(user) });
+                        // console.log('El resultado --> ', auth.createToken(user.dataValues));
+                        auth.createToken(user.dataValues).then((token) => {
+                            res.status(200).json({ msg: 'Authenticate successfully', token: token });
+                        })
                     }
                 });
             }
