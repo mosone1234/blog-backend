@@ -101,12 +101,15 @@ userCtrl.resetPasswordFinish = (req, res) => {
     const newPassword = req.body.newPassword;
     User.findOne({ where: { reset_key: key } }).
         then((user) => {
-            const data = user.dataValues;
-            data.reset_key = null;
-            User.update(data, { where: { id: data.id } }).then(() => {
-                console.log('La contrasenia fue actualizada exitosamente');
-                res.status(200).json('Your account was updated successfully');
-            })
+            bcrypt.hash(newPassword, 10, function (err, hash) {
+                const data = user.dataValues;
+                data.reset_key = null;
+                data.password = hash;
+                User.update(data, { where: { id: data.id } }).then(() => {
+                    console.log('La contrasenia fue actualizada exitosamente');
+                    res.status(200).json('Your account was updated successfully');
+                });
+            });
         }).catch((err) => {
             res.status(500).json({ msg: 'error', details: err });
         });

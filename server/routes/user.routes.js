@@ -4,7 +4,6 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../services/auth.service');
 const userController = require('../controllers/user.controller');
-const req = { 'role': 'Admin' };
 
 router.get('/api/users', auth.verifyToken, userController.findAll);
 router.post('/api/users', auth.verifyToken, userController.create);
