@@ -48,7 +48,7 @@ exports.update = (req, res) => {
 
 exports.findById = (req, res) => {
     const id = req.params.id;
-    Article.findById(id).
+    Article.findOne({ where: { id: id } }).
         then((article) => {
             res.json(article);
         }).catch((err) => {
